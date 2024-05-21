@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trivia Topics</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Bienvenido a Trivia Topics</h1>
+<h2>By: Henri Chevalier Boyd</h2>
+<p>Te haran 10 preguntas sobre diferentes temas. Por cada una correcta te daran 10 puntos. Cuando terminan las preguntas te daran tu puntaje (1-100). ¿Estás listo para comenzar?</p>
+
+<form id="triviaForm">
+    <label for="name">Enter your username: </label>
+    <input type="text" id="name" name="name" required><br><br>
+
+    <label for="tema">¿Qué tema te interesa? (fortnite, matemáticas, historia, deportes): </label>
+    <input type="text" id="tema" name="tema" required><br><br>
+
+    <label for="nivel">Nivel, para regular ingresa 0, para difícil ingresa 1: </label>
+    <input type="number" id="nivel" name="nivel" required min="0" max="1"><br><br>
+
+    <button type="button" onclick="startTrivia()">Comenzar</button>
+</form>
+
+<div id="questionsContainer" style="display:none;">
+    <div id="timer">Tiempo restante: 05:00</div>
+    <div id="questions"></div>
+    <button type="button" onclick="calculateScore()">Submit Answers</button>
+</div>
+
+<p id="result"></p>
+
+<script>
+    const temas = {
+        "fortnite": [
+            {
+                "¿En qué año se lanzó Fortnite?": "2017",
+                "¿Cuál es el modo de juego más popular de Fortnite?": "Battle Royale",
+                "¿Qué empresa desarrolló Fortnite?": "Epic Games",
+                "¿Cuántos jugadores pueden participar en una partida de Fortnite Battle Royale?": "100",
+                "¿Cómo se llama el autobús que lleva a los jugadores a la isla de Fortnite?": "Battle Bus",
+                "¿Cuál es la moneda virtual utilizada en Fortnite?": "V-Bucks",
+                "¿Qué evento en el juego es conocido por cambiar drásticamente el mapa de Fortnite?": "El evento del agujero negro",
+                "¿Cómo se llama el modo de juego cooperativo original de Fortnite?": "Save the World",
+                "¿Cuál es la rareza más alta de las armas en Fortnite?": "Legendaria",
+                "¿Qué tipo de construcciones pueden hacer los jugadores en Fortnite?": "Paredes, pisos, rampas y techos"
+            },
+            {
+                "¿Cuál es el nombre real del personaje conocido como 'Jonesy' en Fortnite?": "Jon Jones",
+                "¿En qué temporada de Fortnite se introdujo el modo creativo?": "Temporada 7",
+                "¿Cuál fue el primer vehículo que se agregó a Fortnite Battle Royale?": "Carrito de la compra",
+                "¿Cuál es el nombre del evento en vivo que marcó el final del Capítulo 1 de Fortnite?": "El Fin (The End)",
+                "¿Qué arma mítica fue introducida en la Temporada 2 del Capítulo 2 de Fortnite?": "La Minigun de Midas",
+                "¿Cuál es el nombre del primer pase de batalla de Fortnite?": "Season 2 Battle Pass",
+                "¿Qué personaje fue el villano principal en la Temporada 4 del Capítulo 2?": "Galactus",
+                "¿Cuál es el nombre del lugar de aterrizaje conocido por su ciudad futurista introducida en la Temporada 9?": "Neopicados",
+                "¿Qué colaboración de Fortnite introdujo un concierto virtual dentro del juego?": "Travis Scott",
+                "¿En qué temporada de Fortnite se introdujeron los helicópteros como vehículo?": "Temporada 2 del Capítulo 2"
+            }
+        ],
+        "matematicas": [
+            {
+                "¿Cuánto es 5 + 3?": "8",
+                "¿Cuánto es 12 - 4?": "8",
+                "¿Cuánto es 7 x 6?": "42",
+                "¿Cuánto es 15 ÷ 3?": "5",
+                "¿Cuánto es 9 + 10?": "19",
+                "¿Cuánto es 8 x 5?": "40",
+                "¿Cuánto es 20 ÷ 4?": "5",
+                "¿Cuánto es 6 + 7?": "13",
+                "¿Cuánto es 14 - 9?": "5",
+                "¿Cuánto es 11 x 3?": "33"
+            },
+            {
+                "¿Cuánto es 123 + 456?": "579",
+                "¿Cuánto es 789 - 654?": "135",
+                "¿Cuánto es 32 x 17?": "544",
+                "¿Cuánto es 144 ÷ 12?": "12",
+                "¿Cuánto es 876 + 543?": "1419",
+                "¿Cuánto es 987 - 432?": "555",
+                "¿Cuánto es 48 x 23?": "1104",
+                "¿Cuánto es 256 ÷ 8?": "32",
+                "¿Cuánto es 765 + 234?": "999",
+                "¿Cuánto es 1001 - 999?": "2"
+            }
+        ],
+        "historia": [
+            {
+                "¿Quién descubrió América en 1492?": "Cristóbal Colón",
+                "¿Qué muralla famosa se encuentra en China?": "La Gran Muralla China",
+                "¿Quién fue el primer presidente de los Estados Unidos?": "George Washington",
+                "¿En qué año comenzó la Segunda Guerra Mundial?": "1939",
+                "¿Qué antiguo imperio construyó las pirámides de Giza?": "El Imperio Egipcio",
+                "¿Quién fue el líder de la Alemania nazi durante la Segunda Guerra Mundial?": "Adolf Hitler",
+                "¿Qué documento firmado en 1776 proclamó la independencia de las trece colonias americanas?": "La Declaración de Independencia de los Estados Unidos",
+                "¿En qué año cayó el Muro de Berlín?": "1989",
+                "¿Quién fue el primer hombre en caminar sobre la luna?": "Neil Armstrong",
+                "¿Qué civilización antigua construyó el Partenón en Atenas?": "La civilización griega"
+            },
+            {
+                "¿Quién fue el primer emperador romano?": "Augusto",
+                "¿En qué año comenzó la Primera Guerra Mundial?": "1914",
+                "¿Qué faraón egipcio es conocido por su tumba casi intacta descubierta en 1922?": "Tutankamón",
+                "¿Qué guerra se libró entre 1950 y 1953 y terminó con un armisticio, no un tratado de paz?": "La Guerra de Corea",
+                "¿Quién fue el autor de la Declaración de Independencia de los Estados Unidos?": "Thomas Jefferson",
+                "¿En qué año cayó Constantinopla y marcó el fin del Imperio Bizantino?": "1453",
+                "¿Qué revolución comenzó en 1789 y llevó a la caída de la monarquía en Francia?": "La Revolución Francesa",
+                "¿Quién fue el primer presidente de Sudáfrica después del apartheid?": "Nelson Mandela",
+                "¿Cuál fue el nombre del barco que trajo a los peregrinos a América en 1620?": "El Mayflower",
+                "¿Qué imperio antiguo construyó Machu Picchu?": "El Imperio Inca"
+            }
+        ],
+        "deportes": [
+            {
+                "¿Cuál es el deporte más popular del mundo?": "Fútbol",
+                "¿Cuántos jugadores forman un equipo de fútbol?": "11 jugadores",
+                "¿En qué deporte se utiliza una raqueta para golpear una pelota sobre una red?": "Tenis",
+                "¿Cuál es el evento deportivo más visto en televisión a nivel mundial?": "La final de la Copa del Mundo de fútbol",
+                "¿Qué país ha ganado más Copas del Mundo de fútbol?": "Brasil",
+                "¿En qué deporte se compite en las categorías de peso pluma, peso ligero y peso pesado?": "Boxeo",
+                "¿Quién es conocido como 'El Rey del Fútbol'?": "Pelé",
+                "¿Cuál es la distancia de una maratón en kilómetros?": "42.195 kilómetros",
+                "¿Qué deporte se juega en una piscina y tiene equipos que intentan meter una pelota en la portería del oponente?": "Waterpolo",
+                "¿Cuál es el torneo de tenis más antiguo del mundo?": "Wimbledon"
+            },
+            {
+                "¿Cuál es el único país que ha jugado en todas las ediciones de la Copa del Mundo de fútbol?": "Brasil",
+                "¿En qué año se celebraron los primeros Juegos Olímpicos modernos?": "1896",
+                "¿Cuál es el deporte nacional de Canadá?": "Lacrosse (y hockey sobre hielo también es considerado como deporte nacional)",
+                "¿Qué tenista ha ganado más títulos de Grand Slam en individuales masculinos?": "Roger Federer (actualmente podría ser Novak Djokovic, verificar)",
+                "¿En qué ciudad se celebraron los primeros Juegos Olímpicos de Invierno?": "Chamonix, Francia",
+                "¿Qué equipo de la NFL ha ganado más Super Bowls?": "Pittsburgh Steelers y New England Patriots (6 cada uno)",
+                "¿Cuál es el nombre del trofeo otorgado al campeón de la NHL?": "La Copa Stanley",
+                "¿Cuál es el récord de puntos en un solo partido de la NBA y quién lo tiene?": "100 puntos, Wilt Chamberlain",
+                "¿Cuál es el deporte más antiguo del mundo?": "Lucha libre",
+                "¿En qué país se originó el críquet?": "Inglaterra"
+            }
+        ]
+    };
+
+    let score = 0;
+    let name = "";
+    let timerInterval;
+
+    function startTrivia() {
+        name = document.getElementById("name").value;
+        const tema = document.getElementById("tema").value.toLowerCase();
+        const nivel = parseInt(document.getElementById("nivel").value);
+
+        if (!temas[tema] || !temas[tema][nivel]) {
+            alert("Tema o nivel incorrecto. Por favor revisa tu entrada.");
+            return;
+        }
+
+        document.getElementById("triviaForm").style.display = "none";
+        document.getElementById("questionsContainer").style.display = "block";
+
+        const questionsDiv = document.getElementById("questions");
+        questionsDiv.innerHTML = "";
+        for (const [question, answer] of Object.entries(temas[tema][nivel])) {
+            const questionElement = document.createElement("div");
+            questionElement.className = "question";
+            questionElement.innerHTML = `
+                <p>${question}</p>
+                <input type="text" data-answer="${answer}" required><br><br>
+            `;
+            questionsDiv.appendChild(questionElement);
+        }
+
+        startTimer(300);
+    }
+
+    function startTimer(duration) {
+        let timer = duration, minutes, seconds;
+        const display = document.getElementById("timer");
+        timerInterval = setInterval(function () {
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10);
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            display.textContent = `Tiempo restante: ${minutes}:${seconds}`;
+
+            if (--timer < 0) {
+                clearInterval(timerInterval);
+                calculateScore();
+            }
+        }, 1000);
+    }
+
+    function calculateScore() {
+        clearInterval(timerInterval);
+        const inputs = document.querySelectorAll("#questionsContainer input");
+        score = 0;
+
+        inputs.forEach(input => {
+            if (input.value.toLowerCase() === input.dataset.answer.toLowerCase()) {
+                score += 10;
+            }
+        });
+
+        document.getElementById("questionsContainer").style.display = "none";
+        document.getElementById("result").innerText = `Great Job ${name}, your score was ${score}`;
+    }
+</script>
+
+</body>
+</html>
