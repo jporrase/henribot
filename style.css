@@ -1,94 +1,109 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f8ff;
+    color: #333;
+    text-align: center;
+    padding: 20px;
+}
 
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f8ff;
-            color: #333;
-            text-align: center;
-            padding: 20px;
-        }
+h1 {
+    color: #2c3e50;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
 
-        h1 {
-            color: #2c3e50;
-            font-size: 2.5em;
-            margin-bottom: 20px;
-        }
+h2 {
+    color: #2980b9;
+    font-size: 2em;
+    margin-bottom: 20px;
+}
 
-        h2 {
-            color: #2980b9;
-            font-size: 2em;
-            margin-bottom: 20px;
-        }
+p {
+    font-size: 1.2em;
+    line-height: 1.6;
+}
 
-        p {
-            font-size: 1.2em;
-            line-height: 1.6;
-        }
+form, #questionsContainer {
+    max-width: 600px;
+    margin: auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
-        form, #questionsContainer {
-            max-width: 600px;
-            margin: auto;
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+label {
+    display: block;
+    font-size: 1.1em;
+    margin-bottom: 10px;
+    text-align: left;
+}
 
-        label {
-            display: block;
-            font-size: 1.1em;
-            margin-bottom: 10px;
-            text-align: left;
-        }
+input[type="text"], input[type="number"] {
+    width: calc(100% - 22px);
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
 
-        input[type="text"], input[type="number"] {
-            width: calc(100% - 22px);
-            padding: 10px;
-            font-size: 1em;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
+button {
+    background-color: #3498db;
+    color: #ffffff;
+    border: none;
+    padding: 15px 20px;
+    font-size: 1.1em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
 
-        button {
-            background-color: #3498db;
-            color: #ffffff;
-            border: none;
-            padding: 15px 20px;
-            font-size: 1.1em;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
+button:hover {
+    background-color: #2980b9;
+}
 
-        button:hover {
-            background-color: #2980b9;
-        }
+#result {
+    font-size: 1.5em;
+    margin-top: 20px;
+    color: #27ae60;
+}
 
-        #result {
-            font-size: 1.5em;
-            margin-top: 20px;
-            color: #27ae60;
-        }
+.question {
+    margin-bottom: 20px;
+    text-align: left;
+}
 
-        .question {
-            margin-bottom: 20px;
-            text-align: left;
-        }
+.question p {
+    font-size: 1.1em;
+}
 
-        .question p {
-            font-size: 1.1em;
-        }
+.question input {
+    width: calc(100% - 22px);
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
 
-        .question input {
-            width: calc(100% - 22px);
-            padding: 10px;
-            font-size: 1em;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
+#timer {
+    font-size: 1.5em;
+    color: #e74c3c;
+    margin-bottom: 20px;
+}
 
-        #timer {
-            font-size: 1.5em;
-            color: #e74c3c;
-            margin-bottom: 20px;
-        }
+/* Add this CSS for the feedback box */
+.feedback-box {
+    background-color: #ffffff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.feedback-box p {
+    font-size: 1.1em;
+    margin: 0;
+}

@@ -32,6 +32,7 @@
 </div>
 
 <p id="result"></p>
+<div id="feedback" class="feedback-box"></div>
 
 <script>
     const temas = {
@@ -196,11 +197,18 @@
         clearInterval(timerInterval);
         const inputs = document.querySelectorAll("#questionsContainer input");
         score = 0;
+        const feedbackDiv = document.getElementById("feedback");
+        feedbackDiv.innerHTML = "";
 
         inputs.forEach(input => {
+            const questionElement = document.createElement("div");
             if (input.value.toLowerCase() === input.dataset.answer.toLowerCase()) {
                 score += 10;
+                questionElement.innerHTML = `<p>Correct! ${input.previousElementSibling.textContent} The answer is ${input.dataset.answer}.</p>`;
+            } else {
+                questionElement.innerHTML = `<p>Incorrect! ${input.previousElementSibling.textContent} Your answer: ${input.value}. Correct answer: ${input.dataset.answer}.</p>`;
             }
+            feedbackDiv.appendChild(questionElement);
         });
 
         document.getElementById("questionsContainer").style.display = "none";
