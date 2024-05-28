@@ -16,11 +16,20 @@
     <label for="name">Enter your username: </label>
     <input type="text" id="name" name="name" required><br><br>
 
-    <label for="tema">¿Qué tema te interesa? (fortnite, matemáticas, historia, deportes): </label>
+    <label for="tema">¿Qué tema te interesa? (videojuegos, matemáticas, historia, deportes): </label>
     <input type="text" id="tema" name="tema" required><br><br>
 
-    <label for="nivel">Nivel, para regular ingresa 0, para difícil ingresa 1: </label>
-    <input type="number" id="nivel" name="nivel" required min="0" max="1"><br><br>
+    <label for="nivel">Nivel, para regular ingresa 1, para difícil ingresa 2: </label>
+    <input type="number" id="nivel" name="nivel" required min="1" max="2"><br><br>
+    
+    <label for="premium">Ventajas de Premium:</label>
+    <ul id="premium">
+        <li>More Time</li>
+        <li>Choose the Best Answer</li>
+        <li>Instant Question Answer</li>
+        <li>More Topics</li>
+        <li>Impossible Level</li>
+    </ul><br><br>
 
     <button type="button" onclick="startTrivia()">Comenzar</button>
 </form>
@@ -36,30 +45,30 @@
 
 <script>
     const temas = {
-        "fortnite": [
+        "videojuegos": [
             {
-                "¿En qué año se lanzó Fortnite?": "2017",
-                "¿Cuál es el modo de juego más popular de Fortnite?": "Battle Royale",
-                "¿Qué empresa desarrolló Fortnite?": "Epic Games",
-                "¿Cuántos jugadores pueden participar en una partida de Fortnite Battle Royale?": "100",
-                "¿Cómo se llama el autobús que lleva a los jugadores a la isla de Fortnite?": "Battle Bus",
-                "¿Cuál es la moneda virtual utilizada en Fortnite?": "V-Bucks",
-                "¿Qué evento en el juego es conocido por cambiar drásticamente el mapa de Fortnite?": "El evento del agujero negro",
-                "¿Cómo se llama el modo de juego cooperativo original de Fortnite?": "Save the World",
-                "¿Cuál es la rareza más alta de las armas en Fortnite?": "Legendaria",
-                "¿Qué tipo de construcciones pueden hacer los jugadores en Fortnite?": "Paredes, pisos, rampas y techos"
+                "¿En qué año se lanzó el primer juego de la serie 'The Legend of Zelda'?": "1986",
+                "¿Cómo se llama el protagonista de la serie 'Halo'?": "Master Chief",
+                "¿Cuál es el nombre del reino en el que se desarrollan los juegos de 'Super Mario'?": "Mushroom Kingdom",
+                "¿Qué videojuego popular se basa en la construcción y exploración en un mundo de bloques?": "Minecraft",
+                "¿Cuál es el nombre del personaje principal en 'The Witcher'?": "Geralt of Rivia",
+                "¿Qué videojuego incluye una batalla entre los equipos BLU y RED?": "Team Fortress 2",
+                "¿En qué juego aparece el personaje 'Pikachu'?": "Pokémon",
+                "¿Qué empresa desarrolló el juego 'Fortnite'?": "Epic Games",
+                "¿En qué videojuego puedes encontrar el personaje 'Lara Croft'?": "Tomb Raider",
+                "¿Cuál es el objetivo principal del juego 'Among Us'?": "Descubrir al impostor"
             },
             {
-                "¿Cuál es el nombre real del personaje conocido como 'Jonesy' en Fortnite?": "Jon Jones",
-                "¿En qué temporada de Fortnite se introdujo el modo creativo?": "Temporada 7",
-                "¿Cuál fue el primer vehículo que se agregó a Fortnite Battle Royale?": "Carrito de la compra",
-                "¿Cuál es el nombre del evento en vivo que marcó el final del Capítulo 1 de Fortnite?": "El Fin (The End)",
-                "¿Qué arma mítica fue introducida en la Temporada 2 del Capítulo 2 de Fortnite?": "La Minigun de Midas",
-                "¿Cuál es el nombre del primer pase de batalla de Fortnite?": "Season 2 Battle Pass",
-                "¿Qué personaje fue el villano principal en la Temporada 4 del Capítulo 2?": "Galactus",
-                "¿Cuál es el nombre del lugar de aterrizaje conocido por su ciudad futurista introducida en la Temporada 9?": "Neopicados",
-                "¿Qué colaboración de Fortnite introdujo un concierto virtual dentro del juego?": "Travis Scott",
-                "¿En qué temporada de Fortnite se introdujeron los helicópteros como vehículo?": "Temporada 2 del Capítulo 2"
+                "¿Cuál es el nombre del primer videojuego de disparos en primera persona lanzado en 1992?": "Wolfenstein 3D",
+                "¿Qué juego de 2018 ganó el premio 'Juego del Año' en los Game Awards?": "God of War",
+                "¿Qué personaje de 'Street Fighter' tiene una técnica de ataque llamada 'Hadouken'?": "Ryu",
+                "¿En qué videojuego luchas contra jefes conocidos como 'Colosos'?": "Shadow of the Colossus",
+                "¿Cuál es el nombre del protagonista de 'Red Dead Redemption 2'?": "Arthur Morgan",
+                "¿Qué juego de rol de acción se desarrolla en la región de Skyrim?": "The Elder Scrolls V: Skyrim",
+                "¿Qué empresa es conocida por desarrollar los juegos 'Dark Souls' y 'Bloodborne'?": "FromSoftware",
+                "¿En qué videojuego puedes encontrar a los personajes 'Gordon Freeman' y 'Alyx Vance'?": "Half-Life",
+                "¿Cuál es el nombre del juego en el que los jugadores construyen y gestionan un parque de atracciones?": "RollerCoaster Tycoon",
+                "¿Qué personaje de videojuegos es conocido por su frase 'It's dangerous to go alone! Take this.'?": "Anciano de The Legend of Zelda"
             }
         ],
         "matematicas": [
@@ -151,7 +160,7 @@
         const tema = document.getElementById("tema").value.toLowerCase();
         const nivel = parseInt(document.getElementById("nivel").value);
 
-        if (!temas[tema] || !temas[tema][nivel]) {
+        if (!temas[tema] || !temas[tema][nivel-1]) {
             alert("Tema o nivel incorrecto. Por favor revisa tu entrada.");
             return;
         }
@@ -161,7 +170,7 @@
 
         const questionsDiv = document.getElementById("questions");
         questionsDiv.innerHTML = "";
-        for (const [question, answer] of Object.entries(temas[tema][nivel])) {
+        for (const [question, answer] of Object.entries(temas[tema][nivel-1])) {
             const questionElement = document.createElement("div");
             questionElement.className = "question";
             questionElement.innerHTML = `
